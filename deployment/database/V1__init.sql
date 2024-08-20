@@ -65,7 +65,7 @@ insert into permission (id, code, name)
 values (1, 'adm_car_read', 'მანქანის დათვალიერება'),
        (2, 'adm_car_update', 'მანქანის რედაქტირება'),
        (3, 'adm_car_delete', 'მანქანის წაშლა'),
-       (4, 'adm_car_update', 'მანქანის შექმნა');
+       (4, 'adm_car_create', 'მანქანის შექმნა');
 
 
 insert into role (id, code, name)

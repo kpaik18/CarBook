@@ -1,5 +1,6 @@
 package com.example.demo.admin.car.repository.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,9 +27,13 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car")
     @SequenceGenerator(name = "car", sequenceName = "seq_car", allocationSize = 1, initialValue = 1000)
     private Long id;
+    @Column(name = "state_number")
     private String stateNumber;
+    @Column(name = "vin_code")
     private String VINCode;
     @Enumerated(EnumType.STRING)
+    @Column(name = "brand")
     private Brand brand;
+    @Column(name = "model")
     private String model;
 }

@@ -3,8 +3,10 @@ package com.example.demo.admin.car.service;
 import com.example.demo.admin.car.controller.dto.CarCreateOrUpdateDTO;
 import com.example.demo.admin.car.repository.CarRepository;
 import com.example.demo.admin.car.repository.entity.Car;
+import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.SecurityViolationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +19,23 @@ public class CarService {
     public void createCar(CarCreateOrUpdateDTO dto) {
         Car car = new Car();
         updateEntityFromDto(car, dto);
-        repository.save(car);
+        saveCar(car);
     }
 
     public void updateCar(Long id, CarCreateOrUpdateDTO dto) {
         Car dbCar = lookupCar(id);
         updateEntityFromDto(dbCar, dto);
+        saveCar(dbCar);
     }
+
+    private void saveCar(Car dbCar) {
+        try {
+            repository.saveAndFlush(dbCar);
+        } catch (DataIntegrityViolationException ex) {
+            throw new BusinessException("car_with_same_data_exists");
+        }
+    }
+
 
     private void updateEntityFromDto(Car dbCar, CarCreateOrUpdateDTO dto) {
         dbCar.setStateNumber(dto.stateNumber());
