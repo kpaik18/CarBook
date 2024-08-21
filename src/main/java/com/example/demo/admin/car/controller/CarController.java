@@ -2,6 +2,7 @@ package com.example.demo.admin.car.controller;
 
 import com.example.demo.admin.car.controller.dto.CarCreateOrUpdateDTO;
 import com.example.demo.admin.car.controller.dto.CarGetDTO;
+import com.example.demo.admin.car.controller.dto.ServiceDTO;
 import com.example.demo.admin.car.service.CarService;
 import com.example.demo.util.PageView;
 import jakarta.annotation.security.RolesAllowed;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RequestMapping("admin/cars")
 @RestController
@@ -51,5 +54,18 @@ public class CarController {
     @RolesAllowed("adm_car_delete")
     public void deleteCar(@PathVariable Long id) {
         service.deleteCar(id);
+    }
+
+    @PostMapping("{id}/services")
+    @RolesAllowed("adm_car_update")
+    public void addCarService(@PathVariable Long id,
+                              @RequestBody @Valid ServiceDTO serviceDTO) {
+        service.addCarService(id, serviceDTO);
+    }
+
+    @GetMapping("{id}/services")
+    @RolesAllowed("adm_car_read")
+    public List<ServiceDTO> getCarServices(@PathVariable Long id) {
+        return service.getCarServices(id);
     }
 }
