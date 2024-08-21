@@ -1,10 +1,13 @@
 package com.example.demo.admin.car.service;
 
 import com.example.demo.admin.car.controller.dto.CarCreateOrUpdateDTO;
+import com.example.demo.admin.car.controller.dto.CarGetDTO;
 import com.example.demo.admin.car.repository.CarRepository;
 import com.example.demo.admin.car.repository.entity.Car;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.SecurityViolationException;
+import com.example.demo.util.PageUtils;
+import com.example.demo.util.PageView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -44,7 +47,16 @@ public class CarService {
         dbCar.setModel(dto.model());
     }
 
+    public void deleteCar(Long id) {
+        Car car = lookupCar(id);
+        repository.delete(car);
+    }
+
     public Car lookupCar(Long id) {
         return repository.findById(id).orElseThrow(SecurityViolationException::new);
+    }
+
+    public PageView<CarGetDTO> getCars(int page, int size, String search) {
+        return PageView.of(repository.getCars(search, PageUtils.pageOf(page, size)));
     }
 }
