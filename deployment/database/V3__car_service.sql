@@ -6,7 +6,7 @@ create table car_service_detail
     price     numeric      not null,
     car_id    bigint       not null,
     constraint fk_car_service_car
-        foreign key (car_id) references car(id)
+        foreign key (car_id) references car (id)
 );
 
 grant select, insert, update, delete on car_service_detail to car_book_app;
